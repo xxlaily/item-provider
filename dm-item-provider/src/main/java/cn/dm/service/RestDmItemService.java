@@ -1,5 +1,9 @@
 package cn.dm.service;
 
+import cn.dm.common.Constants;
+import cn.dm.common.EmptyUtils;
+import cn.dm.common.Page;
+import cn.dm.pojo.DmItemComment;
 import cn.dm.pojo.DmItemType;
 import cn.dm.vo.DmFloorItems;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +14,10 @@ import cn.dm.mapper.DmItemMapper;
 import cn.dm.pojo.DmItem;
 
 import org.springframework.web.bind.annotation.*;
+import sun.security.krb5.internal.PAData;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,8 +68,29 @@ public class RestDmItemService {
     }
 
     @RequestMapping(value = "/queryItemByMonth", method = RequestMethod.POST)
-    public List<DmItem> queryItemByMonth(@RequestParam("month") Integer month,
-                                         @RequestParam("year") Integer year) throws Exception {
-        return dmItemMapper.getItemByMonth(month, year);
+    public List<DmItem> queryItemByMonth(@RequestParam Map<String, Object> param) throws Exception {
+        List<DmItem> list = dmItemMapper.getItemByMonth(param);
+        return list;
+    }
+
+    @RequestMapping(value = "/getDmItemListByMapForEs", method = RequestMethod.POST)
+    public List<DmItem> getDmItemListByMapForEs(@RequestParam Map<String, Object> param) throws Exception {
+        List<DmItem> list = dmItemMapper.getHotDmItemListForEs(param);
+        return list;
+    }
+
+    @RequestMapping(value = "/queryDmItemPage", method = RequestMethod.POST)
+    public Page<DmItem> queryDmItemtPage(@RequestParam Map<String,Object> param)throws Exception{
+        Integer total = dmItemMapper.getDmItemCountByMap(param);
+        Object pageNoObj=param.get("currentPage");
+        Object pageSizeObj=param.get("pageSize");
+        Integer pageNo=EmptyUtils.isEmpty(pageNoObj) ? Constants.DEFAULT_PAGE_NO : Integer.parseInt(pageNoObj.toString());
+        Integer pageSize=EmptyUtils.isEmpty(pageSizeObj) ? Constants.DEFAULT_PAGE_SIZE : Integer.parseInt(pageSizeObj.toString());
+        Page page = new Page(pageNo, pageSize, total);
+        param.put("beginPos", page.getBeginPos());
+        param.put("pageSize", page.getPageSize());
+        List<DmItem> dyTestProfessionTypeList = dmItemMapper.getDmItemListByMap(param);
+        page.setRows(dyTestProfessionTypeList);
+        return page;
     }
 }
