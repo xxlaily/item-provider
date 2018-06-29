@@ -47,4 +47,10 @@ public class RestDmCinemaSeatService {
         dmCinemaSeat.setUpdatedTime(new Date());
         return dmCinemaSeatMapper.updateDmCinemaSeat(dmCinemaSeat);
      }
+
+    @RequestMapping(value = "/queryCinemaSeatArray", method = RequestMethod.POST)
+    public List<String> queryCinemaSeatArray(@RequestBody Map<String, Object> params) throws Exception{
+        List<String> seatArray=dmCinemaSeatMapper.queryCinemaSeatArray(params);
+        return seatArray;
+    }
 }
