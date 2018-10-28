@@ -2,24 +2,24 @@ spring:
   application:
     name: dm-item-provider
   datasource:
-    url: jdbc:mysql://192.168.9.151:3306/dm_item?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://192.168.92.131:3306/dm_item?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
-    host: 192.168.9.151
+    host: 192.168.92.131
     port: 5672
     username: guest
     password: guest
   redis:
     database: 0
-    host: 192.168.9.151
+    host: 192.168.92.131
     port: 6379
     user: root
     password: 123456
     timeout: 3000
   activemq:
-    broker-url: tcp://192.168.9.151:61616?jms.optimizeAcknowledge=true&jms.optimizeAcknowledgeTimeOut=30000&jms.redeliveryPolicy.maximumRedeliveries=10
+    broker-url: tcp://192.168.92.131:61616?jms.optimizeAcknowledge=true&jms.optimizeAcknowledgeTimeOut=30000&jms.redeliveryPolicy.maximumRedeliveries=10
     user: admin
     password: admin
     packages:
@@ -37,7 +37,7 @@ spring:
 eureka:
   client:
     service-url:
-       defaultZone: http://root:123456@192.168.9.151:7776/eureka/
+       defaultZone: http://root:123456@192.168.92.131:7776/eureka/
   instance:
     prefer-ip-address: true
 server:
@@ -52,7 +52,7 @@ spring:
 eureka:
   client:
     service-url:
-        defaultZone: http://root:123456@192.168.9.151:7776/eureka/
+        defaultZone: http://root:123456@192.168.92.131:7776/eureka/
   instance:
     prefer-ip-address: true
 server:
